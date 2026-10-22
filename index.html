@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PT.KNE - Menuju Ramadhan Utuh 2027</title>
+    <style>
+        :root {
+            --bg-main: #0b1120; /* Dark Navy Background */
+            --card-bg: rgba(30, 41, 59, 0.6); /* Glass effect */
+            --gold: #FFD700;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 215, 0, 0.2);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background-color: var(--bg-main);
+            color: var(--text-light); 
+            min-height: 100vh; 
+            padding: 20px 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container { max-width: 450px; width: 100%; text-align: center; }
+
+        /* HEADER STYLES */
+        .main-title { 
+            font-size: 22px; 
+            font-weight: 800; 
+            color: var(--gold); 
+            letter-spacing: 1px; 
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+        .sub-title { font-size: 13px; color: var(--text-muted); font-style: italic; margin-bottom: 25px; }
+
+        /* CARD STYLES */
+        .card { 
+            background: var(--card-bg); 
+            backdrop-filter: blur(10px); 
+            border-radius: 16px; 
+            border: 1px solid var(--border-color); 
+            padding: 20px; 
+            margin-bottom: 16px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .card-header { 
+            font-size: 15px; 
+            font-weight: 700; 
+            color: var(--gold); 
+            margin-bottom: 15px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px;
+        }
+
+        /* MEDIA CONTENT AREA (FLEXIBLE) */
+        .media-container {
+            width: 100%;
+            aspect-ratio: 16/9; /* Rasio video/poster standar */
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+        .media-container img, .media-container video { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* TEXT MESSAGE STYLE */
+        .text-message {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.5;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .caption-text { font-size: 13px; color: var(--text-muted); margin-top: 12px; line-height: 1.4; font-style: italic;}
+
+        /* COUNTDOWN STYLES */
+        .countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .time-box { 
+            background: rgba(0,0,0,0.4); 
+            border-radius: 10px; 
+            padding: 12px 5px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+        }
+        .time-val { font-size: 26px; font-weight: 800; color: var(--gold); display: block; line-height: 1; margin-bottom: 4px;}
+        .time-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .target-date { font-size: 12px; color: var(--text-muted); margin-bottom: 15px; }
+
+        /* DAILY REMINDER STYLES */
+        .reminder-box { min-height: 80px; display: flex; flex-direction: column; justify-content: center; }
+        .reminder-text { font-size: 16px; font-weight: 600; color: #fff; line-height: 1.5; margin-bottom: 8px; }
+        .reminder-date { font-size: 12px; color: var(--text-muted); }
+
+        .btn-back { 
+            display: block; width: 100%; padding: 14px; margin-top: 20px;
+            background: transparent; color: var(--gold); border: 1px solid var(--gold); 
+            border-radius: 12px; font-size: 15px; font-weight: 700; text-decoration: none; 
+            transition: all 0.3s; 
+        }
+        .btn-back:active { background: rgba(255, 215, 0, 0.1); transform: scale(0.98); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="main-title">PT.KNE<br>MENUJU RAMADHAN UTUH 2027</div>
+            <div class="sub-title">Jaga Diri, Jaga Ibadah | Safe Journey to Fasting 1448 H</div>
+        </div>
+
+        <!-- BAGIAN KONTEN FLEKSIBEL (VIDEO / POSTER / TEKS) -->
+        <div class="card">
+            <div class="card-header">🛡️ Pesan Keselamatan</div>
+            
+            <!-- Area Konten Dinamis -->
+            <div id="dynamicContent" class="media-container"></div>
+            
+            <p id="contentCaption" class="caption-text">
+                "Tubuhmu adalah amanah untuk beribadah dan memeluk keluarga. Jangan biarkan kelalaian merampas momen indah itu."
+            </p>
+        </div>
+
+        <!-- BAGIAN COUNTDOWN -->
+        <div class="card">
+            <div class="card-header"> Menuju Ramadhan 2027</div>
+            <div class="target-date">8 Februari 2027 M / 1 Ramadhan 1448 H</div>
+            <div class="countdown-grid">
+                <div class="time-box"><span class="time-val" id="days">00</span><span class="time-label">Hari</span></div>
+                <div class="time-box"><span class="time-val" id="hours">00</span><span class="time-label">Jam</span></div>
+                <div class="time-box"><span class="time-val" id="minutes">00</span><span class="time-label">Menit</span></div>
+                <div class="time-box"><span class="time-val" id="seconds">00</span><span class="time-label">Detik</span></div>
+            </div>
+        </div>
+
+        <!-- BAGIAN PESAN HARIAN -->
+        <div class="card reminder-box">
+            <div class="card-header"> Pengingat K3 Hari Ini</div>
+            <p id="dailyMessage" class="reminder-text">Memuat pesan...</p>
+            <small id="messageDate" class="reminder-date"></small>
+        </div>
+
+        <a href="index.html" class="btn-back">← Kembali ke Aplikasi Absensi</a>
+    </div>
+
+    <script>
+        // ==========================================
+        //  KONFIGURASI KONTEN (EDIT DI SINI SAJA!)
+        // ==========================================
+        
+        // Pilihan Tipe Konten: 'IMAGE', 'VIDEO', atau 'TEXT'
+        const contentType = 'TEXT'; 
+
+        // Isi konten sesuai tipe di atas:
+        // Jika IMAGE: masukkan link gambar (bisa upload ke GitHub juga)
+        // Jika VIDEO: masukkan link file mp4 atau embed youtube
+        // Jika TEXT: masukkan kalimat pesan K3 yang ingin ditampilkan permanen
+        const contentValue = "Bekerja aman adalah hak keluarga. Jangan curi hak mereka dengan nekat. Pulanglah dengan selamat untuk menyambut Ramadhan.";
+        
+        // Link Gambar Contoh (jika pakai IMAGE): 'poster-k3.jpg'
+        // Link Video Contoh (jika pakai VIDEO): 'video-k3.mp4' atau link Youtube Embed
+
+        // ==========================================
+        //  LOGIKA SISTEM (JANGAN DIUBAH KECUALI PAHAM JS)
+        // ==========================================
+
+        // 1. Render Konten Fleksibel
+        const container = document.getElementById('dynamicContent');
+        if(contentType === 'IMAGE') {
+            container.innerHTML = `<img src="${contentValue}" alt="Poster K3 Ramadhan">`;
+            container.style.aspectRatio = 'auto'; // Sesuaikan rasio poster
+        } else if (contentType === 'VIDEO') {
+            // Cek apakah link Youtube atau file langsung
+            if(contentValue.includes('youtube.com') || contentValue.includes('youtu.be')) {
+                 // Konversi link youtube biasa ke embed jika perlu (sederhana)
+                 let embedLink = contentValue.replace('watch?v=', 'embed/');
+                 container.innerHTML = `<iframe src="${embedLink}" frameborder="0" allowfullscreen style="width:100%; height:100%;"></iframe>`;
+            } else {
+                 container.innerHTML = `<video src="${contentValue}" controls playsinline loop style="width:100%; height:100%;"></video>`;
+            }
+        } else if (contentType === 'TEXT') {
+            container.className = 'text-message'; // Ubah class jadi teks
+            container.innerHTML = `"${contentValue}"`;
+        }
+
+        // 2. Mesin Countdown Ramadhan 2027
+        const targetDate = new Date('February 8, 2027 00:00:00').getTime();
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            if (distance < 0) {
+                ['days','hours','minutes','seconds'].forEach(id => document.getElementById(id).textContent = "00");
+                return;
+            }
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = String(d).padStart(2, '0');
+            document.getElementById('hours').textContent = String(h).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(m).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // 3. Mesin Pesan Harian Otomatis
+        const k3RamadhanMessages = [
+            "Ramadhan adalah tamu agung. Jaga tubuhmu agar bisa menyambutnya dengan sempurna.",
+            "APD bukan beban, tapi tameng keselamatan menuju berbuka puasa bersama keluarga.",
+            "Jangan terburu-buru. Keselamatan adalah ibadah. Pulanglah dengan selamat.",
+            "Lelah itu wajar, tapi jangan sampai lengah. Istirahat sejenak demi nyawa.",
+            "Keluarga menantimu di rumah. Jadikan mereka alasan utamamu bekerja aman.",
+            "Puasa menahan lapar, K3 menahan celaka. Keduanya butuh kesadaran hati.",
+            "Satu kesalahan kecil bisa menghapus kebahagiaan lebaran nanti. Tetap waspada!",
+            "Sehat itu nikmat. Selamat bekerja itu anugerah. Jagalah keduanya.",
+            "Rekan kerjamu juga punya keluarga. Jangan biarkan kelalaianmu menyakiti mereka.",
+            "Ramadhan mengajarkan kesabaran. Bersabarlah mengikuti prosedur K3.",
+            "Niatkan bekerja aman sebagai ibadah. Allah menjaga hamba-Nya yang berhati-hati.",
+            "Fokus saat bekerja adalah bentuk syukur atas nikmat sehat yang Allah berikan.",
+            "Jangan abaikan near-miss. Itu peringatan halus dari Allah agar kita tetap selamat.",
+            "Tubuh yang lelah butuh istirahat, bukan dipaksa. Dengarkan sinyal tubuhmu.",
+            "Keselamatan dimulai dari hati yang tenang. Tenangkan pikiran sebelum mengoperasikan alat.",
+            "Jaga silaturahmi dengan rekan kerja. Saling mengingatkan adalah tanda sayang.",
+            "Prosedur K3 ditulis dengan darah para pendahulu. Hormati dengan mematuhinya.",
+            "Pulang selamat adalah hadiah terbaik untuk anak dan istri di rumah.",
+            "Jangan remehkan hal kecil. Baut longgar bisa jadi bencana besar.",
+            "Istiqomah dalam K3 seperti istiqomah dalam ibadah. Konsisten adalah kunci.",
+            "Alat pelindung diri adalah perisai imanmu di lapangan. Gunakan dengan benar.",
+            "Bekerja aman adalah hak keluarga. Jangan curi hak mereka dengan nekat.",
+            "Evaluasi diri setiap hari. Apakah hari ini aku sudah lebih hati-hati?",
+            "Doa ibu adalah pelindung terkuat. Buat ibu bangga dengan kepulanganmu yang selamat.",
+            "Ramadhan mendekat. Bersihkan hati dari lalai, bersihkan area kerja dari bahaya.",
+            "Keselamatan bukan soal untung-rugi, tapi soal cinta pada kehidupan.",
+            "Jadilah teladan keselamatan bagi rekan muda. Ilmu K3 adalah amal jariyah.",
+            "Terima kasih telah menjaga diri. Keluarga menunggu senyummu di hari kemenangan.",
+            "Satu hari lagi menuju Ramadhan. Pertahankan rekor nol kecelakaanmu.",
+            "Alhamdulillah, kita telah menjaga amanah. Selamat merayakan kemenangan dengan raga utuh."
+        ];
+
+        function showDailyReminder() {
+            const today = new Date();
+            let dayIndex = today.getDate() - 1; 
+            if (dayIndex >= k3RamadhanMessages.length || dayIndex < 0) {
+                dayIndex = Math.floor(Math.random() * k3RamadhanMessages.length);
+            }
+            document.getElementById('dailyMessage').textContent = `"${k3RamadhanMessages[dayIndex]}"`;
+            document.getElementById('messageDate').textContent = `${today.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' })}`;
+        }
+        showDailyReminder();
+    </script>
+</body>
+</html>
